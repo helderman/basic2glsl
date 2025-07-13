@@ -9,12 +9,12 @@ window.setInterval(function() {
 	clock.innerText = ((performance.now() - sandbox.timeLoad) / 1000).toFixed(1);
 }, 100);
 
-translate();
+trans();
 run();
 
-function translate() {
+function trans() {
 	let prelude =
-		'// Start boilerplate code ------------------------------------------\n' +
+		'// Begin boilerplate code ------------------------------------------\n' +
 		'#ifdef GL_ES\nprecision mediump float;\n#endif\n' +
 		'uniform vec2 u_resolution;\nuniform float u_time;\n' +
 		'float DisplayWidth = u_resolution.x, DisplayHeight = u_resolution.y;\n' +
