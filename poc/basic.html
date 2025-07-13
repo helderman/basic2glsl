@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>BASIC on the GPU</title>
+<link rel="stylesheet" href="basic.css" />
+
+<div>
+<p>
+<button accesskey="T" onclick="translate();">Translate</button>
+<button accesskey="X" onclick="translate();run();">Translate + Run</button>
+</p>
+<h2>BASIC</h2>
+<textarea id="basic" cols="80" rows="25">
+' see : https://qb64phoenix.com/forum/showthread.php?tid=3735
+' Reference Aurel found this and it is pretty cool 2025-06-05 2025 I share with QB64pe
+ProgName$="Schraf Brot (per Aurel 2025-06-05)"
+    'Modified for LB by keesb, 2025-06-13
+
+w = 400
+h = 400
+    zoom = 4 / w   ' was 2/w
+dmin = 0.06
+
+    nomainwin
+    WindowWidth=400
+    WindowHeight=400
+    UpperLeftX=(DisplayWidth-WindowWidth)/2
+    UpperLeftY=(DisplayHeight-WindowHeight)/2
+
+    open ProgName$ for graphics_nsb_nf as #w
+    #w "trapclose Quit"
+    #w "down"
+    #w "cls"
+    #w "place 20 20"
+    #w "\Please wait 10-20 sec before drawing starts... "
+    #w "\Please wait 75-85 sec before drawing ends... "
+
+    FirstTime=1 'True
+
+For a = 0 To w - 1
+    For b = 0 To 1.5 * h
+        x = (a - w) * zoom
+        y = (b - h) * zoom
+        i = 0
+        d = 100
+        Do
+            u = x * x
+            v = y * y
+            If u + v > 4.8 Or i > 30 Or d < dmin Then
+                Exit Do
+            End If
+            t = u - v
+            y = 2 * x * y + 0.156
+            x = t - 0.8
+            i = i + 1
+            n = Abs(u + v - 1)
+            If n < d Then d = n
+        Loop until 0 'False
+        If d < dmin Then
+            coul = 255 - Int(4000 * d)
+            If coul < 0 Then coul = 0
+            If coul > 255 Then coul = 255
+            x1 = a - w / 2
+            y1 = b - h / 2
+            x2 = w + w / 2 - 1 - a
+            y2 = h + h / 2 - b
+
+            ' you can choose one of the following colormaps :
+            #w "color "; coul; " "; coul; " "; 0           ' original colors, actually black to yellow
+            '#w "color "; Autumn256$(coul)
+            '#w "color "; Bone256$(coul)
+            '#w "color "; "0 " + co
+            '#w "color "; Gray256$(coul)
+            '#w "color "; Hot256$(coul)
+            '#w "color "; Pink256$(coul)
+            '#w "color "; Turbo256$(coul)
+
+            if FirstTime then
+                #w "fill black"
+                FirstTime=0 'False
+            end if
+            #w "Line "; x1; " "; y1; " "; x1 + 1; " "; y1 + 1
+            #w "Line "; x2; " "; y2; " "; x2 + 1; " "; y2 + 1
+        End If
+        scan
+    Next b
+Next a
+
+    #w "flush"
+
+    wait
+
+' removed the rest
+
+</textarea>
+</div>
+
+<div>
+<p>
+<button accesskey="R" onclick="run();">Run</button>
+</p>
+<h2>GLSL</h2>
+<textarea id="glsl" cols="60" rows="25">
+#ifdef GL_ES
+precision mediump float;
+#endif
+uniform vec2 u_resolution;
+uniform float u_time;
+
+void main()
+{
+    gl_FragColor = vec4(sin(vec3(.7, .8, .9) * u_time), 1);
+}
+</textarea>
+</div>
+
+<div>
+<p>
+<button accesskey="0" onclick="resetClock();">Reset</button>
+</p>
+<h2 id="clock"></h2>
+<canvas id="canvas" width="400" height="400"></canvas>
+</div>
+
+<script src="https://patriciogonzalezvivo.github.io/glslCanvas/dist/GlslCanvas.js"></script>
+<script src="basic.js"></script>

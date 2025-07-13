@@ -1,0 +1,18 @@
+div {
+	display: inline-block;
+}
+
+p {
+	float: right;
+	padding-right: 3em;
+}
+
+textarea {
+	white-space: pre;
+	overflow-wrap: normal;
+	overflow-x: scroll;
+}
+
+canvas {
+	border: thin solid silver;
+}
