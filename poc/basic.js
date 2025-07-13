@@ -27,8 +27,8 @@ function trans() {
 	s = s.replace(/\s*'.*$/gm, '');
 
 	// Eliminate outer loops - tailored for Eric's fractal
-	s = s.replace(/^For\s+(a)\b.*$/gmi, '$1 = 1.5*u_resolution.x - gl_FragCoord.x\n{');
-	s = s.replace(/^For\s+(b)\b.*$/gmi, '$1 = 1.5*u_resolution.y - gl_FragCoord.y\n{');
+	s = s.replace(/^For\s+(a)\b.*$/gmi, '$1 = gl_FragCoord.x + .5*u_resolution.x\n{');
+	s = s.replace(/^For\s+(b)\b.*$/gmi, '$1 = gl_FragCoord.y + .5*u_resolution.y\n{');
 
 	// Outcomment unnecessary statements
 	s = s.replace(/^end$|^nomainwin$|^scan$|^wait$|^.*\bProgName\$.*$/gmi, '//$&');
@@ -38,6 +38,7 @@ function trans() {
 	s = s.replace(/\bAbs\b/gmi, 'abs');
 	s = s.replace(/\bCos\b/gmi, 'cos');
 	s = s.replace(/\bSin\b/gmi, 'sin');
+	s = s.replace(/\bAtn\b/gmi, 'atan');
 	s = s.replace(/\bInt\b/gmi, 'trunc');
 
 	// Make sure every numeric literal has a decimal point
@@ -57,9 +58,9 @@ function trans() {
 
 	// Loop
 	s = s.replace(/^Do$/gmi, 'for (int ii=0; ii<999; ii++) {');
-	s = s.replace(/^Do\s+While\b\s*(.*)$/gmi, 'for (int ii=0; ii<999; ii++) {\nif (!bool($1)) break;');
+	s = s.replace(/^(?:Do\s+)?While\b\s*(.*)$/gmi, 'for (int ii=0; ii<999; ii++) {\nif (!bool($1)) break;');
 	s = s.replace(/^For\s+(\w+)\s*=\s*(.*?)\s*\bTo\b\s*(.*)$/gmi, 'for ($1 = $2; $1 <= $3; $1++) {');
-	s = s.replace(/^Next\b.*$|^End\s.*$|^Loop$/gmi, '}');
+	s = s.replace(/^Next\b.*$|^End\s.*$|^Loop$|^Wend$/gmi, '}');
 	s = s.replace(/^Loop\s+Until\b\s*(.*)$/gmi, 'if (bool($1)) break;\n}');
 	s = s.replace(/^Exit\b.*$/gmi, 'break;');
 
@@ -86,4 +87,8 @@ function run() {
 
 function resetClock() {
 	sandbox.timeLoad = performance.now();
+}
+
+function loadBasic(id) {
+	basic.value = document.getElementById(id).innerText;
 }

@@ -5,11 +5,37 @@
 
 <div>
 <p>
+<button onclick="loadBasic('ericbrot');">EricBrot</button>
+&nbsp;
 <button accesskey="T" onclick="trans();">Translate</button>
 <button accesskey="X" onclick="trans();run();">Translate + Run</button>
 </p>
 <h2>BASIC</h2>
 <textarea id="basic" cols="80" rows="25">
+#w "color "; 255*sin(u_time*.7); " "; 255*sin(u_time*.9); " "; 255*sin(u_time)
+</textarea>
+</div>
+
+<div>
+<p>
+<button accesskey="R" onclick="run();">Run</button>
+</p>
+<h2>GLSL</h2>
+<textarea id="glsl" cols="60" rows="25"></textarea>
+</div>
+
+<div>
+<p>
+<button accesskey="0" onclick="resetClock();">Reset</button>
+</p>
+<h2 id="clock"></h2>
+<canvas id="canvas" width="400" height="400"></canvas>
+</div>
+
+<script src="https://patriciogonzalezvivo.github.io/glslCanvas/dist/GlslCanvas.js"></script>
+<script src="basic.js"></script>
+
+<script type="text/plain" id="ericbrot">' --- EricBrot ---
 ' see : https://qb64phoenix.com/forum/showthread.php?tid=3735
 ' Reference Aurel found this and it is pretty cool 2025-06-05 2025 I share with QB64pe
 ProgName$="Schraf Brot (per Aurel 2025-06-05)"
@@ -89,37 +115,5 @@ Next a
 
     wait
 
-' removed the rest
-
-</textarea>
-</div>
-
-<div>
-<p>
-<button accesskey="R" onclick="run();">Run</button>
-</p>
-<h2>GLSL</h2>
-<textarea id="glsl" cols="60" rows="25">
-#ifdef GL_ES
-precision mediump float;
-#endif
-uniform vec2 u_resolution;
-uniform float u_time;
-
-void main()
-{
-    gl_FragColor = vec4(sin(vec3(.7, .8, .9) * u_time), 1);
-}
-</textarea>
-</div>
-
-<div>
-<p>
-<button accesskey="0" onclick="resetClock();">Reset</button>
-</p>
-<h2 id="clock"></h2>
-<canvas id="canvas" width="400" height="400"></canvas>
-</div>
-
-<script src="https://patriciogonzalezvivo.github.io/glslCanvas/dist/GlslCanvas.js"></script>
-<script src="basic.js"></script>
+' end of EricBrot
+</script>
