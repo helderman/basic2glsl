@@ -6,7 +6,7 @@ Will only work with Liberty BASIC programs that are specifically written for thi
 
 See it in action here:
 
-[https://helderman.github.io/basic2glsl/prototype/basic.html](https://helderman.github.io/basic2glsl/prototype/basic.html)
+[https://helderman.github.io/basic2glsl/poc/basic.html](https://helderman.github.io/basic2glsl/poc/basic.html)
 
 Thanks to Patricio Gonzalez Vivo for
 [glslCanvas](https://github.com/patriciogonzalezvivo/glslCanvas).
