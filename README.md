@@ -9,4 +9,6 @@ See it in action here:
 [https://helderman.github.io/basic2glsl/poc/basic.html](https://helderman.github.io/basic2glsl/poc/basic.html)
 
 Thanks to Patricio Gonzalez Vivo for
-[glslCanvas](https://github.com/patriciogonzalezvivo/glslCanvas).
+[glslCanvas](https://github.com/patriciogonzalezvivo/glslCanvas)
+and Luca Zampetti for his typescript port
+[glsl-canvas](https://github.com/actarian/glsl-canvas).

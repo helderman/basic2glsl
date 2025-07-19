@@ -1,16 +1,17 @@
-// https://github.com/patriciogonzalezvivo/glslCanvas
 const basic = document.getElementById('basic');
-const glsl = document.getElementById('glsl');
+const shader = document.getElementById('shader');
 const clock = document.getElementById('clock');
 const canvas = document.getElementById('canvas');
-const sandbox = new GlslCanvas(canvas);
+const sandbox = glsl.of(canvas);	// https://github.com/actarian/glsl-canvas/
+
+window.onload = function() {
+	trans();
+	run();
+}
 
 window.setInterval(function() {
-	clock.innerText = ((performance.now() - sandbox.timeLoad) / 1000).toFixed(1);
+	clock.innerText = (sandbox.timer.current / 1000).toFixed(1);
 }, 100);
-
-trans();
-run();
 
 function trans() {
 	let prelude =
@@ -78,15 +79,22 @@ function trans() {
 	if (floats && floats.length > 0) prelude += 'float ' + [...new Set(floats)].join(', ') + ';\n';
 	if (vec3s && vec3s.length > 0) prelude += 'vec3 ' + [...new Set(vec3s)].join(', ') + ';\n';
 
-	glsl.value = prelude + 'void main() {\ngl_FragColor = vec4(0,0,0,1);\n' + s + '}\n';
+	shader.value = prelude + 'void main() {\ngl_FragColor = vec4(0,0,0,1);\n' + s + '}\n';
 }
 
 function run() {
-	sandbox.load(glsl.value);
+	sandbox.load(shader.value);
 }
 
 function resetClock() {
-	sandbox.timeLoad = performance.now();
+	const t = sandbox.timer;
+	t.start = t.previous = t.now();
+	t.current = t.delay = 0;
+	// TODO: update canvas to show frame 0 when resetting while paused
+}
+
+function pauseClock() {
+	sandbox.toggle();
 }
 
 function loadBasic(id) {

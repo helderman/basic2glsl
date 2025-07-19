@@ -21,18 +21,19 @@
 <button accesskey="R" onclick="run();">Run</button>
 </p>
 <h2>GLSL</h2>
-<textarea id="glsl" cols="60" rows="25"></textarea>
+<textarea id="shader" cols="60" rows="25"></textarea>
 </div>
 
 <div>
 <p>
 <button accesskey="0" onclick="resetClock();">Reset</button>
+<button accesskey="P" onclick="pauseClock();">Pause</button>
 </p>
 <h2 id="clock"></h2>
-<canvas id="canvas" width="400" height="400"></canvas>
+<canvas id="canvas" class="glsl-canvas" width="400" height="400"></canvas>
 </div>
 
-<script src="https://patriciogonzalezvivo.github.io/glslCanvas/dist/GlslCanvas.js"></script>
+<script src="https://unpkg.com/glsl-canvas-js/dist/umd/glsl-canvas.min.js"></script>
 <script src="basic.js"></script>
 
 <script type="text/plain" id="ericbrot">' --- EricBrot ---
