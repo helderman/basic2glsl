@@ -36,6 +36,17 @@
 <script src="https://unpkg.com/glsl-canvas-js/dist/umd/glsl-canvas.min.js"></script>
 <script src="basic.js"></script>
 
+<script type="text/plain" id="boilerplate1">// Shader boilerplate ------------------------------------------
+#ifdef GL_ES
+precision mediump float;
+#endif
+uniform vec2 u_resolution;
+uniform float u_time;
+float DisplayWidth = u_resolution.x, DisplayHeight = u_resolution.y;
+float trunc(float x){return x>0.?floor(x):ceil(x);}
+// End of boilerplate --------------------------------------------
+</script>
+
 <script type="text/plain" id="ericbrot">' --- EricBrot ---
 ' see : https://qb64phoenix.com/forum/showthread.php?tid=3735
 ' Reference Aurel found this and it is pretty cool 2025-06-05 2025 I share with QB64pe

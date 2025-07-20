@@ -14,13 +14,7 @@ window.setInterval(function() {
 }, 100);
 
 function trans() {
-	let prelude =
-		'// Begin boilerplate code ------------------------------------------\n' +
-		'#ifdef GL_ES\nprecision mediump float;\n#endif\n' +
-		'uniform vec2 u_resolution;\nuniform float u_time;\n' +
-		'float DisplayWidth = u_resolution.x, DisplayHeight = u_resolution.y;\n' +
-		'float trunc(float x){return x>0.?floor(x):ceil(x);}\n' +
-		'// End boilerplate code --------------------------------------------\n';
+	let prelude = document.getElementById('boilerplate1').innerText;
 	let s = basic.value;
 
 	// Remove leading/trailing whitespace and comments
