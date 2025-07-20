@@ -14,5 +14,5 @@ textarea {
 }
 
 canvas {
-	border: thin solid silver;
+	background-color: silver;
 }

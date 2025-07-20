@@ -5,15 +5,14 @@
 
 <div>
 <p>
+<button onclick="loadBasic('tll');">12LL</button>
 <button onclick="loadBasic('ericbrot');">EricBrot</button>
 &nbsp;
 <button accesskey="T" onclick="trans();">Translate</button>
 <button accesskey="X" onclick="trans();run();">Translate + Run</button>
 </p>
 <h2>BASIC</h2>
-<textarea id="basic" cols="80" rows="25">
-#w "color "; 255*sin(u_time*.7); " "; 255*sin(u_time*.9); " "; 255*sin(u_time)
-</textarea>
+<textarea id="basic" cols="80" rows="25"></textarea>
 </div>
 
 <div>
@@ -40,11 +39,71 @@
 #ifdef GL_ES
 precision mediump float;
 #endif
+
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform sampler2D u_buffer0;
+
 float DisplayWidth = u_resolution.x, DisplayHeight = u_resolution.y;
-float trunc(float x){return x>0.?floor(x):ceil(x);}
+const float w_iterations = 500.;
+vec4 w_color = vec4(1);
+float w_seed = 0.;
+
+float w_trunc(float x) { return x > 0. ? floor(x) : ceil(x); }
+float w_angle(float a) { return mod(a, 6.2831853); }
+float w_sin(float a) { return sin(w_angle(a)); }
+float w_cos(float a) { return cos(w_angle(a)); }
+float w_tan(float a) { return tan(w_angle(a)); }
+
+float sdSegment(vec2 p, vec2 a, vec2 b) { vec2 pa = p-a, ba = b-a; return length(pa - ba * clamp(dot(pa,ba)/dot(ba,ba), 0., 1.)); }
+bool w_line(float x1, float y1, float x2, float y2) { return sdSegment(gl_FragCoord.xy, vec2(x1, y1), vec2(x2, y2)) <= .5; }
+float w_random(float x, float y) { return fract(w_sin(dot(vec2(x, y), vec2(12.9898, 12.1414))) * 83758.5453); }
+float w_for_chaosgame(float from, float to) { return from + floor((to - from + 1.) * w_random(u_time, w_seed++)); }
+float w_for_ericbrot(float from, float to) { vec2 c = gl_FragCoord.xy + .5*u_resolution; return to == u_resolution.x - 1. ? c.x : c.y; }
+float w_for(float from, float to) { return u_time < .1 ? w_for_ericbrot(from, to) : w_for_chaosgame(from, to); }
+
+void main() {
+gl_FragColor = texture2D(u_buffer0, gl_FragCoord.xy / u_resolution, 0.0);
+gl_FragColor.a = 1.0;
+#ifdef BUFFER_0
+for (float w_iteration = 0.; w_iteration < w_iterations; w_iteration++) {
 // End of boilerplate --------------------------------------------
+</script>
+
+<script type="text/plain" id="tll">' --- Twelve Little Lions ---
+nomainwin
+WindowWidth=400
+WindowHeight=400
+
+open ProgName$ for graphics_nsb_nf as #w
+#w "trapclose Quit"
+#w "down"
+#w "cls"
+
+deg2rad = atn(1) / 45
+linelen = WindowHeight / 100
+x1 = WindowWidth / 2
+y1 = WindowHeight / 7
+a = 0
+
+For i = 1 To 2160
+    x2 = x1 + linelen * cos(a)
+    y2 = y1 + linelen * sin(a)
+    a = a + (i*i + 358) * deg2rad
+    #w "Line "; x1; " "; y1; " "; x2; " "; y2
+    x1 = x2
+    y1 = y2
+Next i
+
+#w "flush"
+wait
+
+'sub Quit handle$
+    #w "discard"
+    close #w
+    end
+'end sub
+
 </script>
 
 <script type="text/plain" id="ericbrot">' --- EricBrot ---
